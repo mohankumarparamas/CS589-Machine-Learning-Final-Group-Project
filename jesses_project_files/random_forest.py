@@ -558,7 +558,13 @@ def run_single_tree_experiment(dataset_filepath):
 # ──────────────────────────────────────────────────────────────────────
 # Random Forest experiment
 # ──────────────────────────────────────────────────────────────────────
-def run_rf_experiment(dataset_filepath, dataset_label):
+def run_rf_experiment(dataset_filepath, dataset_label, tag=None):
+    """Sweep ntree on the given dataset and write per-metric plots.
+
+    ``tag`` is the slug used in the output filenames; if not provided we
+    fall back to deriving it from ``dataset_label`` for backward compat.
+    Pass an explicit tag (e.g. ``"rice"``) to keep filenames clean.
+    """
     ntree_values = NTREE_VALUES
     attributes, classes, is_numerical = load_dataset(dataset_filepath)
     results = {
@@ -591,7 +597,8 @@ def run_rf_experiment(dataset_filepath, dataset_label):
             f"F1={cv['f1_mean']:.4f}+/-{cv['f1_std']:.4f}"
         )
 
-    tag = dataset_label.lower().replace(" ", "_").replace("#", "")
+    if tag is None:
+        tag = dataset_label.lower().replace(" ", "_").replace("#", "")
     metric_names = {
         "accuracy": "Accuracy",
         "precision": "Precision",
@@ -632,7 +639,7 @@ def main():
     print(f"Min Split: {MIN_SIZE_FOR_SPLIT}")
     print(f"Min Gain:  {MIN_GAIN}")
 
-    run_rf_experiment("datasets/rice.csv", "Dataset #1 (Rice)")
+    run_rf_experiment("datasets/rice.csv", "Dataset 1.3 (Rice)", tag="rice")
 
     print("\n--- Experiment Complete ---")
 

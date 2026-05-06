@@ -9,7 +9,7 @@ Max Depth: 5
 Min Split: 2
 Min Gain:  0
 
-Dataset: Dataset #1 (Rice)  (datasets/rice.csv)
+Dataset: Dataset 1.3 (Rice)  (datasets/rice.csv)
   ntree = 1 ... Acc=0.9171+/-0.0198  Prec=0.9169+/-0.0210  Rec=0.9153+/-0.0180  F1=0.9153+/-0.0198
   ntree = 5 ... Acc=0.9257+/-0.0137  Prec=0.9254+/-0.0143  Rec=0.9230+/-0.0138  F1=0.9240+/-0.0140
   ntree = 10 ... Acc=0.9262+/-0.0121  Prec=0.9257+/-0.0125  Rec=0.9239+/-0.0124  F1=0.9245+/-0.0123

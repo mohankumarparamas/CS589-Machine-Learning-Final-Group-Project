@@ -183,7 +183,13 @@ def plot_normalized_vs_raw(
 # ──────────────────────────────────────────────────────────────────────
 # Experiment driver
 # ──────────────────────────────────────────────────────────────────────
-def run_knn_experiment(dataset_filepath, dataset_label, k_values=K_VALUES):
+def run_knn_experiment(dataset_filepath, dataset_label, k_values=K_VALUES, tag=None):
+    """Sweep k on the given dataset and write per-metric plots.
+
+    ``tag`` is the slug used in the output filenames; if not provided we
+    fall back to deriving it from ``dataset_label`` for backward compat.
+    Pass an explicit tag (e.g. ``"rice"``) to keep filenames clean.
+    """
     attributes, classes, _ = load_dataset(dataset_filepath)
 
     norm_results = {
@@ -231,7 +237,8 @@ def run_knn_experiment(dataset_filepath, dataset_label, k_values=K_VALUES):
             f"F1={cv['f1_mean']:.4f}+/-{cv['f1_std']:.4f}"
         )
 
-    tag = dataset_label.lower().replace(" ", "_").replace("#", "")
+    if tag is None:
+        tag = dataset_label.lower().replace(" ", "_").replace("#", "")
     metric_names = {
         "accuracy": "Accuracy",
         "precision": "Precision",
@@ -266,7 +273,7 @@ def run_knn_experiment(dataset_filepath, dataset_label, k_values=K_VALUES):
 # ──────────────────────────────────────────────────────────────────────
 def main():
     print("\n--- Starting k-NN Experiment ---")
-    run_knn_experiment("datasets/rice.csv", "Dataset #1 (Rice)")
+    run_knn_experiment("datasets/rice.csv", "Dataset 1.3 (Rice)", tag="rice")
     print("\n--- k-NN Experiment Complete ---")
 
 
