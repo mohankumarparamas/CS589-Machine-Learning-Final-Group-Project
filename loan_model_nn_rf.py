@@ -688,12 +688,12 @@ def train_validation_full_model(X_normal, y, folds_index, n_in, n_hid, n_out, la
     #print(f"Results Fold {f_idx + 1}: Accuracy = {accuracy_fold:.4f}, F1-Score: {f1_score:.4f}, Loss = {val_loss:.4f}")
   return np.mean(fold_accuracies), np.mean(fold_f1_scores)
 
-"""# Testing with different architectures on wdbc data"""
+"""# Testing with different architectures on data"""
 
 saved_experiments = []
 display(text_input, ui_horizontal, input_regularization, btn_save)
 
-"""# Table with results for wdbc data"""
+"""# Table with results"""
 
 final_results = []
 
@@ -817,8 +817,8 @@ final_f1 = 2 * (precision * recall) / (precision + recall) if (precision + recal
 
 # Plotting
 plt.figure(figsize=(10, 5))
-plt.plot(m_sizes, test_costs_j, color='blue', marker='o', label='Test Cost (J)')
-plt.title(f'Learning Curve: J as a function of training instances wdbc data (alpha: {alpha})')
+plt.plot(m_sizes, test_costs_j, color='green', marker='o', label='Cost le')
+plt.title(f'Function Loss J (alpha: {alpha})')
 plt.xlabel('Number of Training Samples (m)')
 plt.ylabel('Performance Cost (J) on Test Set')
 plt.grid(True, linestyle='--', alpha=0.5)
@@ -841,7 +841,22 @@ print('*' * 60)
 dataset_credit = pd.read_csv('/content/drive/MyDrive/Colab Notebooks/ML_class/final_proj/credit_approval.csv')
 dataset_credit.head(3)
 
-# Entropy of the original dataset classes: unacceptable, acceptable, good, and very good.
+"""# Balanced class"""
+
+counts = dataset_credit['label'].value_counts()
+percentages = dataset_credit['label'].value_counts(normalize=True) * 100
+print("Distribution of class:")
+print(counts)
+
+dataset_credit['label'].value_counts().plot(kind='bar', color=['skyblue', 'salmon'], edgecolor='black')
+
+plt.title('Class Balance')
+plt.xlabel('Class (0 = Approved, 1 = Rejected)')
+plt.ylabel('Count')
+plt.show()
+
+# Entropy of the original dataset classes: ['g' 'p' 'gg'] But it was not used!!!
+# Because, We convert categories to numbers
 
 def entropy(data):
   categories_probs = data.value_counts(normalize=True)
@@ -1333,12 +1348,13 @@ for row_votes in zip(*final_expert_votes):
 # ------------ Accuracy in generalization model --------------------------------
 acc_generalization = accuracy_calculate(y_final_ensemble_pred, y_real_final_test)
 print("-" * 100)
-print(f"🔥🔥🔥 FINAL MODEL GENERALIZATION (Test Set 15%): {acc_generalization:.4f}")
+print(f"FINAL MODEL GENERALIZATION (Test Set 15%): {acc_generalization:.4f}")
 print("-" * 100)
 
-"""### Training random forests with different values of the ntree parameter: 1, 5, 10, 20, 30, 40, and 50."""
+"""### Training random forests with different values of the ntree parameter: 1, 5, 10, 20, 30, 40, 50."""
 
 ntree_list = [1, 5, 10, 20, 30, 40, 50]
+#ntree_list = [1, 5]
 results_generalization = [] # To save the final result of each experiment
 results_final = [] # for metrics in cross-validation
 
@@ -1356,9 +1372,9 @@ test_data = df_shuffled.iloc[split_data:]
 
 # GENERAL LOOP FOR EACH NTREE VALUE
 for N_tree in ntree_list:
-    print(f"\n\n" + "!"*30)
-    print(f" Starting Random Forest with N_tree = {N_tree} ")
-    print("!"*30 + "\n")
+    print(f"\n\n" + "*"*30)
+    print(f" Starting Random Tree with N_tree = {N_tree} ")
+    print("*"*30 + "\n")
 
     # -----------  Performing cross-validation -------------------------------------
     # Lists to save metrics for each fold
@@ -1367,6 +1383,7 @@ for N_tree in ntree_list:
     K_folds = 5
     folds = np.array_split(train_cross_validation, K_folds)
     all_fold_accuracies = []
+    all_fold_f = []
     # Loop cross-validation
     for k in range(K_folds):
       # 15% validation
@@ -1410,19 +1427,13 @@ for N_tree in ntree_list:
       for row_votes in zip(*models_votes):
         most_frequent = max(set(row_votes), key=row_votes.count)
         y_ensemble_final.append(most_frequent)
-      #print(f"The final vote, after taking each expert's vote, is:{y_ensemble_final}")
-      # Accuracy of the ensemble
-      acc_ensemble = accuracy_calculate(y_ensemble_final, y_real_val)
-      all_fold_accuracies.append(acc_ensemble)
-      print(f"Ensemble accuracy fold {k+1} is {acc_ensemble} ")
-
-      #Calculate fold metrics
+      #Calculate fold metrics of ensamble
       acc, prec, rec, f1 = calculate_metrics(y_ensemble_final, y_real_val)
       fold_accs.append(acc)
       fold_precs.append(prec)
       fold_recs.append(rec)
       fold_f1s.append(f1)
-      #print(f"Fold {k+1} | Acc: {acc:.4f} | F1: {f1:.4f}")
+      print(f"Fold {k+1} | Acc: {acc:.4f} | F1: {f1:.4f}")
     # Cross-Validation Average
     cv_acc = np.mean(fold_accs)
     cv_prec = np.mean(fold_precs)
@@ -1430,10 +1441,12 @@ for N_tree in ntree_list:
     cv_f1 = np.mean(fold_f1s)
 
     # -------------- Final Cross-Validation Result ---------------------------------
-    final_cross_val_performance = np.mean(all_fold_accuracies)
-    print(f"Model performance in cross_validation: {final_cross_val_performance:.4f}")
+    final_cross_val_performance_acc = np.mean(fold_accs)
+    final_cross_val_performance_f1 = np.mean(fold_f1s)
+    print(f"Model performance in cross_validation: {final_cross_val_performance_acc:.4f} | {final_cross_val_performance_f1:.4f} ")
+    print("-" * 100)
 
-    # -----------  Evaluating the selected model with test data --------------------
+    # -----------  Evaluating with test data --------------------
     y_real_final_test = test_data['label'].tolist()
     final_expert_votes = []
 
@@ -1445,26 +1458,18 @@ for N_tree in ntree_list:
         tree_preds.append(int(predict(tree, row)))
       final_expert_votes.append(tree_preds)
     # Ensemble Final Vote on test_final
-    y_final_ensemble_pred = []
+    y_final_ensemble_pred_g = []
     for row_votes in zip(*final_expert_votes):
       vote = max(set(row_votes), key=row_votes.count)
-      y_final_ensemble_pred.append(vote)
+      y_final_ensemble_pred_g.append(vote)
 
-    # ------------ Accuracy in generalization model ----------------------------
-    acc_generalization = accuracy_calculate(y_final_ensemble_pred, y_real_final_test)
-    metrics_generalization = calculate_metrics(y_final_ensemble_pred, y_real_final_test)
+    # ------------ Accuracy and F1-score in generalization model ----------------------------
+    metrics_generalization = calculate_metrics(y_final_ensemble_pred_g, y_real_final_test)
     print("-" * 100)
-    print(f"🔥🔥🔥 FINAL MODEL GENERALIZATION (With the test set 15%), ACCURACY, F1-SCORE: {acc_generalization:.4f}, {metrics_generalization[3]:.4f}")
+    print(f"FINAL MODEL GENERALIZATION (With the test set 15%), ACCURACY, F1-SCORE: {metrics_generalization[0]:.4f}, {metrics_generalization[3]:.4f}")
     print("-" * 100)
 
     # ----------- Saving the results of this N_tree ----------------------------
-    results_generalization.append({
-        'N_tree': N_tree,
-        'CV_Accuracy': final_cross_val_performance,
-        'Gen_Accuracy': acc_generalization
-
-    })
-
     results_final.append({
         'N_tree': N_tree,
         'CV_Accuracy': cv_acc,
@@ -1472,9 +1477,9 @@ for N_tree in ntree_list:
         'CV_Recall': cv_rec,
         'CV_F1': cv_f1
     })
-
-for N_tree in results_generalization:
-    print(f"{N_tree['N_tree']:<10} | {N_tree['CV_Accuracy']:<15.4f} | {N_tree['Gen_Accuracy']:<15.4f}")
+print("CROSS VALIDATION PERFORMANCE: ACCURACY, PRESICION, RECALL, F1-SCORE")
+for N_tree in results_final:
+    print(f"{N_tree['N_tree']:<10} | {N_tree['CV_Accuracy']:<15.4f} | {N_tree['CV_Precision']:<15.4f} | {N_tree['CV_Recall']:<15.4f} | {N_tree['CV_F1']:<15.4f}")
 
 """ # Accuracy, precision, recall, and F1 score of the resulting random forest
 
@@ -1519,4 +1524,47 @@ for ax in axs.flat:
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.96])
 
+plt.show()
+
+import matplotlib.pyplot as plt
+
+
+ntrees = [res['N_tree'] for res in results_final]
+acc_values = [res['CV_Accuracy'] for res in results_final]
+prec_values = [res['CV_Precision'] for res in results_final]
+rec_values = [res['CV_Recall'] for res in results_final]
+f1_values = [res['CV_F1'] for res in results_final]
+
+plt.figure(figsize=(8, 5))
+
+plt.plot(ntrees, acc_values, marker='o', linestyle='-', color='b', label='CV Accuracy', linewidth=2)
+plt.plot(ntrees, prec_values, marker='^', linestyle='-', color='g', label='CV Precision', linewidth=2)
+plt.plot(ntrees, rec_values, marker='v', linestyle='-', color='r', label='CV Recall', linewidth=2)
+plt.plot(ntrees, f1_values, marker='s', linestyle='--', color='m', label='CV F1-Score', linewidth=2.5)
+
+
+#plt.axvline(x=5, color='red', linestyle=':', alpha=0.8, linewidth=2, label='Selected Model (N=5)')
+
+val_at_5 = acc_values[ntrees.index(5)]
+
+'''plt.annotate('Best Performance (N=5)',
+             xy=(, val_at_5),
+             xytext=(15, val_at_5 + 0.05),
+             arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=7),
+             fontsize=10, fontweight='bold', bbox=dict(boxstyle="round", fc="0.9", alpha=0.5))'''
+
+
+plt.title('Performance vs. Number of Trees (Full Metrics Comparison)', fontsize=14)
+plt.xlabel('Number of Trees (N_tree)', fontsize=12)
+plt.ylabel('Performance Score', fontsize=12)
+
+plt.xticks(ntrees)
+
+all_values = acc_values + prec_values + rec_values + f1_values
+plt.ylim(min(all_values) - 0.05, 1.0)
+
+plt.legend(loc='lower right', fontsize=7, shadow=True)
+plt.grid(True, linestyle='--', alpha=0.6)
+
+plt.tight_layout()
 plt.show()
