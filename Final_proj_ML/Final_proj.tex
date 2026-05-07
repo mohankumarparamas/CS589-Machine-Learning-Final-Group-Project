@@ -1,0 +1,325 @@
+%------------------------------------------------------------
+% DEFINITIONS AND HEADERS -- IGNORE THIS
+%------------------------------------------------------------
+\documentclass{article}
+\usepackage[top=2.0cm, bottom=3cm, left=2.25cm, right=2.20cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{algpseudocode}
+% Get better typography
+\usepackage[protrusion=true,expansion=true]{microtype}
+% For algorithms
+\usepackage[boxruled,linesnumbered,vlined,inoutnumbered]{algorithm2e}
+\SetKwInOut{Parameter}{Parameters}
+% For basic math, align, fonts, etc.
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{rotating}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{soul}
+\usepackage{changepage}
+\usepackage{gensymb} % For \degree
+\usepackage{lscape}
+% For \thead to make line breaks in tables
+\usepackage{array}
+\usepackage{makecell}
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+\usepackage{courier} % For \texttt{foo} to put foo in Courier (for code / variables)
+\usepackage{lipsum} % For dummy text
+% For images
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[space]{grffile} % For spaces in image names
+% For bibliography
+\usepackage[round]{natbib}
+% For color
+\usepackage{xcolor}
+\definecolor{light-grey}{rgb}{0.9,0.9,0.9}
+\definecolor{dark-red}{rgb}{0.4,0.15,0.15}
+\definecolor{dark-blue}{rgb}{0,0,0.7}
+\definecolor{darkblue}{rgb}{0,0,.6}
+\definecolor{darkred}{rgb}{.58,0,0}
+\definecolor{brighterred}{rgb}{.745,0,0}
+\definecolor{darkgreen}{rgb}{0,.6,0}
+\definecolor{red}{rgb}{.98,0,0}
+\usepackage{environ}
+% Only show sections in table of contents and rename
+\setcounter{tocdepth}{2}
+\renewcommand{\contentsname}{Table of Contents}
+% For links (e.g., clicking a reference takes you to the phy)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks, linkcolor={dark-blue},
+    citecolor={dark-blue}, urlcolor={dark-blue}
+}
+\newcommand{\HIGHLIGHT}[1]{\textcolor{blue}{\textbf{#1}}}
+% \newcommand{\Solution}[1]{{\color{blue} \paragraph{\bf $\bigstar $ SOLUTION:} { \sf
+%     #1} \bigskip}}
+\newcommand{\TODO}[1]{\textcolor{blue}{\textbf{{#1}}}}
+\newcommand{\POINTS}[1]{\textcolor{purple}{\textbf{{#1}}}}
+\providecommand{\mathcolor}[2]{\textcolor{#1}{#2}}
+% My definition of "summary boxes" (see below)
+\usepackage[most]{tcolorbox}
+\definecolor{boxgray}{rgb}{0.95, 0.95, 0.95}
+\definecolor{boxblue}{rgb}{0.941, 0.941, 0.98}
+\definecolor{boxpink}{rgb}{1.0, 0.93, 0.93}
+\definecolor{boxwhite}{rgb}{1.0, 1.0, 1.0}
+%\definecolor{boxgreen}{rgb}{0.91, 0.96, 0.9}
+\definecolor{boxgreen}{rgb}{0.92, 0.96, 0.92}
+\newtcolorbox{mybox}[1][boxwhite]{%
+  enhanced,
+  boxrule=0.5pt,
+  colframe=black,
+  colback=#1,
+  sharp corners,
+  width=\linewidth,
+  left=1em,
+  right=1em,
+  top=0.5em,
+  bottom=0.5em,
+  boxsep=0pt,
+  before skip=1em,
+  after skip=0.85em,
+}
+
+
+\begin{document}
+%-----------------
+%   Homework 1
+%-----------------
+\newpage
+\vspace*{1cm}
+\begin{center}
+    \begin{Large}
+    Results in the Final Project COMPSCI 589
+    \end{Large}
+    \\
+    \vspace{0.15cm}
+        Name: Jesse Chamberlain
+        Name: Mohan Kumar Paramasivan
+        Name: Monica Hernandez Lordui
+\end{center}
+\addcontentsline{toc}{subsection}{\textbf{Final Project}}
+
+\vspace{0.5cm}
+\section*{Note}
+\vspace{0.5cm}
+
+\begin{itemize}
+    \item The code is available at: \url{https://github.com/JesseChamberlain/CS589_final_group_project}
+\end{itemize}
+\vspace{0.8cm}
+\noindent {\LARGE{\textbf{1. Evaluate the performance}} \POINTS{}
+
+\vspace{0.45in}
+\noindent {\Large{\textbf{A.} \textbf{The Hand-Written Digits Recognition Dataset}
+\vspace{0.5cm}
+\noindent k-NN and Random Forest algorithms were also chosen for the handwritten dataset. The digits experiment stresses the algorithms far differently than the Rice experiment. With 10 classes and 64 pixel features and affixed feature scale, it provides an interesting contrast of reactions to different datasets to the same algorithms.
+\vspace{0.5cm}
+
+\noindent {\Large{\textbf{B.} \textbf{ The Oxford Parkinson’s Disease Detection Dataset}\\
+
+\noindent Neural Networks were selected for the Oxford Parkinson’s Disease Detection Dataset because the dataset consists of numerical biomed ical voice measurements with complex underlying patterns. Neural Networks are highly effective for pattern recognition and classifica tion tasks, especially when relationships between input features are nonlinear. The model analyzes the voice measurements of individu als, learns important speech-related patterns, and predicts whether the patient has Parkinson’s disease or not. KNNalgorithm is Extremely simple, but yet can learn complex deci sion boundaries. No computation cost to “train” the algorithm. Just needs access to the dataset — queries it only when actually making predictions. The K-Nearest Neighbors (K-NN) algorithm was selected because of its simplicity and ability to learn complex decision boundaries. Unlike many machine learning algorithms, K-NN does not require an explicit training phase. Instead, the algorithm stores the dataset and makes predictions by identifying the nearest neighboring data points during the prediction stage. K-NN is effective for classification problems where similar data instances are expected to belong to the same class.
+\vspace{0.5cm}
+\noindent {\Large{\textbf{C.} \textbf{ The Rice Grains Dataset}\\
+
+\noindent k-NN and Random Forest were chosen for the algorithms, as they represent fundamentally different model families, leading to a more informative comparison. Since the Rice dataset consists of seven morphological features, there wasn’t an encoding step needed with these choices.
+\vspace{0.9cm}
+
+
+\noindent {\Large{\textbf{D.} \textbf{ The Credit Approval Dataset}
+\noindent From past assignments, we saw that financial data has a behavior that is difficult to model; I think this is due to its stochastic nature of the data. Neural networks are ideal in this context because they can capture signals of a complex and rare nature. The signal has categorical data is of the type  {\small \textbf{Values in each column:} \texttt{attr6\_cat}: [w, q, m, r, cc, k, c, d, x, i, e, aa, ff, j]}\\
+      \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.3\linewidth]{Final_proj_ML/figures/encouding_credit.png}
+        \caption{ Encoding.}
+        \label{}
+      \end{minipage}
+The union operation of all the letters in the dataframe is performed. A non-repeating random number is assigned using the size of the set. The encoding stays like this. Then it is normalized. We will stick with the Random Forest, which was calculated in the previous assignments and serves as the baseline model. \\
+\vspace{0.15in}
+
+% -------------------------------------------------
+
+\noindent {\LARGE{\textbf{2. Performance Tables to Identify the Best}} \
+\vspace{0.5cm}
+
+\noindent {\Large{\textbf{A.} \textbf{The Hand-Written Digits Recognition Dataset}\\
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/table_perf_dig.png}
+        \caption{ Performance Table Hand-written Digits.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/digits_knn_metrics.png}
+        \caption{ k-NN Performance over Hand-written Digits.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/digits_rf_metrics.png}
+        \caption{ Random Forest Performance over Hand-written Digits.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/digits_comparison_rf_vs_knn.png}
+        \caption{ Comparison of k-NN and RF over Hand-written Digits.}
+        \label{}
+    \end{minipage}
+
+\noindent {\Large{\textbf{B.} \textbf{ The Oxford Parkinson’s Disease Detection Dataset}\\
+
+\noindent {\Large{\textbf{C.} \textbf{ The Rice Grains Dataset}\\
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/table_perf_rice.png}
+        \caption{ Performance table Rice Varieties.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/rice_knn_metrics.png}
+        \caption{ k-NN Performance over Rice Varieties.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/rice_rf_metrics.png}
+        \caption{ Random Forest Performance over Rice Varieties.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/rice_comparison_rf_vs_knn.png}
+        \caption{ Comparison of k-NN and RF over Rice Varieties.}
+        \label{}
+    \end{minipage}
+
+
+\noindent {\Large{\textbf{D.} \textbf{ The Credit Approval Dataset}
+\vspace{1.5cm}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/table_perf_credit.png}
+        \caption{ Performance table using NN.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/Table_perf_RT.png}
+        \caption{ Performance table using Random Forest.}
+        \label{}
+    \end{minipage}
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/Table_perf_RT_2.png}
+        \caption{ Performance table using Random Tree.}
+        \label{}
+    \end{minipage}
+
+
+% ------------------------------------------
+\noindent {\LARGE{\textbf{3. Analysis of the Best Hyperparameter}} \
+\vspace{0.5cm}
+
+
+\noindent {\Large{\textbf{A.} \textbf{The Hand-Written Digits Recognition Dataset}\\
+\vspace{0.5cm}
+
+\noindent \textbf{RF:} number of trees $\mathit{ntree} \in \{1, 5, 10, 20, 30, 40, 50\}$ at fixed stopping criteria (\texttt{max\_depth=10}, \texttt{min\_size=2}, \texttt{min\_gain=0}). \textbf{k-NN:} number of neighbors $k \in \{1, 3, 5, 7, 9, 11, 15, 21, 31, 51\}$, evaluated both with min-max normalization (fit on train, applied to test) and on raw features.
+\vspace{0.5cm}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/digits_knn_normalization_comparison.png}
+        \caption{Normalization Comparison (Digits).}
+        \label{fig:digits-knn-norm}
+    \end{minipage}
+
+\noindent {\Large{\textbf{B.} \textbf{ The Oxford Parkinson’s Disease Detection Dataset}\\
+
+\noindent {\Large{\textbf{C.} \textbf{ The Rice Grains Dataset}\\
+
+\noindent \textbf{RF:} number of trees $\mathit{ntree} \in \{1, 5, 10, 20, 30, 40, 50\}$ at fixed stopping criteria (\texttt{max\_depth=5}, \texttt{min\_size=2}, \texttt{min\_gain=0}). \textbf{k-NN:} number of neighbors $k \in \{1, 3, 5, 7, 9, 11, 15, 21, 31, 51\}$, evaluated both with min-max normalization (fit on train, applied to test) and on raw features.
+\vspace{0.5cm}
+
+\noindent The two datasets of Hand-written digits and Rice varieties behave very differently. On Rice, RF stops improving by $\mathit{ntree}=10$ and k-NN keeps improving upwards as $k$ grows. On Digits, RF keeps improving out to $\mathit{ntree}=50$ while k-NN peaks at $k=3$ to $5$ and gets worse from there. Normalization also matters in different ways. It adds about 4 points of accuracy to k-NN on Rice, but does essentially nothing on Digits, since every pixel is already on a $0$ to $16$ scale.
+\vspace{0.5cm}
+
+\noindent To summarize, Rice is a binary problem with mixed feature scales where RF and k-NN tie and normalization is essential for k-NN. Digits is a 10-class problem with a uniform scale where k-NN wins and normalization doesn't matter. Very different outcomes between the same two algorithms but comparing them across datasets.
+\vspace{0.5cm}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/rice_knn_normalization_comparison.png}
+        \caption{Normalization Comparison (Rice).}
+        \label{fig:rice-knn-norm}
+    \end{minipage}
+
+\noindent {\Large{\textbf{D.} \textbf{ The Credit Approval Dataset}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/thebest_RT.png}
+        \caption{ Analysis of the Best Hyperparameter Random Tree.}
+        \label{}
+    \end{minipage}
+
+    \begin{minipage}{\linewidth}
+        \captionsetup{type=figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Final_proj_ML/figures/the_best_NN.png}
+        \caption{ Analysis of the Best Hyperparameter Random Tree.}
+        \label{}
+    \end{minipage}
+\vspace{2.5cm}
+% --------------------------------
+
+\noindent {\LARGE{\textbf{4. Table Accuracy and F1-Score}} \
+\vspace{0.5cm}
+
+\noindent {\Large{\textbf{A.} \textbf{The Hand-Written Digits Recognition Dataset}\\
+
+
+\noindent {\Large{\textbf{B.} \textbf{ The Oxford Parkinson’s Disease Detection Dataset}\\
+
+\noindent {\Large{\textbf{C.} \textbf{ The Rice Grains Dataset}\\
+
+
+\noindent {\Large{\textbf{D.} \textbf{ The Credit Approval Dataset}
+\vspace{1.5cm}
+
+\end{document}
