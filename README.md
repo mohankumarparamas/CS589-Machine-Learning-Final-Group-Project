@@ -13,7 +13,7 @@ This uses Mohan Kumar Paramasivan's k-NN, NN and Random Forest algorithms:
 
 `Mohan_P_project_files/Final_Group_Project_Parkinsons_Disease_dataset_NN_KNN_and_RF_Mohan_Kumar_Paramasivan.ipynb`
 
-`Mohan_P_project_files/Final Project - Extra Credit Question 1 - Mohan Kumar.ipynb'
+`Mohan_P_project_files/Final Group Project - Extra Credit Question 1 - Rice Dataset NN and Credit approval dataset KNN- Mohan Kumar Paramasivan.ipynb'
 
 ## Dataset #1.3 Rice varieties
 
