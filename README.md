@@ -1,7 +1,15 @@
-COMPSCI 589 – Machine Learning Final Group Project
-University of Massachusetts Amherst
+# COMPSCI 589 – Machine Learning Final Group Project
+
+**University of Massachusetts Amherst**
+
 This repository contains the final group project completed for COMPSCI 589 – Machine Learning. The project involved implementing and evaluating multiple machine learning algorithms across several datasets.
-Group Project: Mohan Kumar Paramasivan, Jesse Chamberlain, and Monica Hernandez Lordui.
+
+### Group Members
+
+- Mohan Kumar Paramasivan
+- Jesse Chamberlain
+- Monica Hernandez Lordui
+
 The repository contains each group member's project files and the final project materials.
 
 # CS589_final_group_project
